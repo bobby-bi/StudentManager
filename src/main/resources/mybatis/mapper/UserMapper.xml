@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bi.dao.UserMapper">
+    <select id="findByUserName" parameterType="String" resultType="User">
+        SELECT * FROM user WHERE username=#{username}
+    </select>
+    <insert id="add" parameterType="User" >
+        INSERT INTO user (username,password) VALUES (#{username},#{password})
+    </insert>
+    <select id="findList" parameterType="Map" resultType="User">
+        SELECT * FROM user WHERE username LIKE #{username} limit #{offset},#{pagesize}
+    </select>
+    <select id="getTotal" parameterType="Map" resultType="int">
+        SELECT count(id) FROM user WHERE username LIKE #{username}
+    </select>
+    <update id="edit" parameterType="User" >
+        UPDATE user SET username=#{username} , password=#{password} WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE  FROM user WHERE id in (${value})
+    </delete>
+</mapper>

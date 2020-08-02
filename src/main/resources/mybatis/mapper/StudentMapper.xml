@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bi.dao.StudentMapper">
+    <insert id="add" parameterType="Student" >
+        INSERT INTO student (clazzId,username,remark,sn,password,sex,photo) VALUES (#{clazzId},#{username},#{remark},#{sn},#{password},#{sex},#{photo})
+    </insert>
+    <select id="findList" parameterType="Map" resultType="Student">
+        SELECT * FROM student WHERE 1=1
+        <if test="username!=null">
+           AND username LIKE #{username}
+        </if>
+        <if test="clazzId!=null">
+           AND clazzId=#{clazzId}
+        </if>
+        limit #{offset},#{pagesize}
+    </select>
+    <select id="getTotal" parameterType="Map" resultType="int">
+        SELECT count(id) FROM student WHERE 1=1
+        <if test="username!=null">
+            AND username LIKE #{username}
+        </if>
+        <if test="clazzId!=null">
+            AND clazzId=#{clazzId}
+        </if>
+    </select>
+    <update id="edit" parameterType="Student" >
+        UPDATE student SET clazzId=#{clazzId},username=#{username} , remark=#{remark},password=#{password},photo=#{photo},sex=#{sex} WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="String">
+        DELETE  FROM student WHERE id in (${value})
+    </delete>
+    <select id="findAll" resultType="Student">
+        SELECT * FROM student
+    </select>
+    <select id="findByUserName" parameterType="String" resultType="Student">
+        SELECT * FROM student WHERE username=#{username}
+    </select>
+</mapper>
